@@ -1,76 +1,69 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { SectionContainer, ContentWrapper } from '../../molecules/sectionContainer/sectionContainer';
-import { Typography } from '../../atoms/typography/typography';
-import { Input } from '../../atoms/input/input';
-import { Button } from '../../atoms/button/button';
-
-const ContactForm = styled.form`
-  margin-top: ${({ theme }) => theme.spacing.xxl};
-  display: grid;
-  gap: ${({ theme }) => theme.spacing.md};
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-`;
-
-const TextArea = styled.textarea`
-  grid-column: 1 / -1;
-  min-height: 160px;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  border-radius: ${({ theme }) => theme.radius.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  transition: ${({ theme }) => theme.transitions.default};
-  resize: vertical;
-  outline: none;
-
-  &:focus {
-    border-color: ${({ theme }) => theme.colors.accent};
-    box-shadow: 0 0 0 4px rgba(0, 255, 148, 0.15);
-  }
-`;
-
-const SubmitWrapper = styled.div`
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const SectionSubtitle = styled(Typography)`
-  margin-top: ${({ theme }) => theme.spacing.sm};
-`;
+import { ScrollReveal, MotionButton } from '@primitives';
 
 export const ContactSection: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <SectionContainer id="contact">
-      <ContentWrapper>
-        <Typography variant="heading" weight="bold" align="center">
-          {t('contact.title')}
-        </Typography>
-        <SectionSubtitle variant="body" align="center">
-          {t('contact.subtitle')}
-        </SectionSubtitle>
-        <ContactForm
-          as={motion.form}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          onSubmit={event => event.preventDefault()}
-        >
-          <Input name="name" placeholder={t('contact.name')} />
-          <Input name="email" type="email" placeholder={t('contact.email')} />
-          <TextArea name="message" placeholder={t('contact.message')} />
-          <SubmitWrapper>
-            <Button type="submit">{t('contact.submit')}</Button>
-          </SubmitWrapper>
-        </ContactForm>
-      </ContentWrapper>
-    </SectionContainer>
+    <section id="contact" className="relative overflow-hidden pb-32 pt-16">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[color:var(--overlay-subtle)] to-transparent" />
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <ScrollReveal>
+            <p className="text-sm uppercase tracking-[0.28em] text-muted">{t('navigation.contact')}</p>
+            <h2 className="mt-4 font-display text-3xl font-semibold tracking-wider text-primary sm:text-4xl">
+              {t('contact.title')}
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <p className="mt-6 text-lg leading-relaxed text-secondary">{t('contact.subtitle')}</p>
+          </ScrollReveal>
+        </div>
+        <ScrollReveal delay={0.15}>
+          <form
+            className="grid gap-6 rounded-[42px] border border-overlay-soft bg-overlay-subtle p-8 shadow-lacoste backdrop-blur-2xl sm:p-12 md:grid-cols-2"
+            onSubmit={event => event.preventDefault()}
+          >
+            <label className="flex flex-col gap-2 text-sm uppercase tracking-[0.28em] text-secondary">
+              {t('contact.name')}
+              <input
+                type="text"
+                name="name"
+                className="rounded-full border border-overlay-soft bg-overlay-subtle px-6 py-4 text-base font-medium text-primary outline-none transition-all duration-300 ease-expo focus:border-[var(--color-accent)] focus:shadow-[0_0_0_4px_rgba(0,255,148,0.18)]"
+                placeholder={t('contact.name')}
+                required
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-sm uppercase tracking-[0.28em] text-secondary">
+              {t('contact.email')}
+              <input
+                type="email"
+                name="email"
+                className="rounded-full border border-overlay-soft bg-overlay-subtle px-6 py-4 text-base font-medium text-primary outline-none transition-all duration-300 ease-expo focus:border-[var(--color-accent)] focus:shadow-[0_0_0_4px_rgba(0,255,148,0.18)]"
+                placeholder={t('contact.email')}
+                required
+              />
+            </label>
+            <label className="md:col-span-2 flex flex-col gap-2 text-sm uppercase tracking-[0.28em] text-secondary">
+              {t('contact.message')}
+              <textarea
+                name="message"
+                className="h-40 rounded-3xl border border-overlay-soft bg-overlay-subtle px-6 py-4 text-base font-medium text-primary outline-none transition-all duration-300 ease-expo focus:border-[var(--color-accent)] focus:shadow-[0_0_0_4px_rgba(0,255,148,0.18)]"
+                placeholder={t('contact.message')}
+                required
+              />
+            </label>
+            <div className="md:col-span-2 flex items-center justify-between">
+              <span className="text-xs uppercase tracking-[0.28em] text-muted">
+                24h para retorno pastoral
+              </span>
+              <MotionButton type="submit" variant="primary" size="md">
+                {t('contact.submit')}
+              </MotionButton>
+            </div>
+          </form>
+        </ScrollReveal>
+      </div>
+    </section>
   );
 };
-

@@ -1,53 +1,11 @@
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { IconButton } from '../../atoms/iconButton/iconButton';
-import { Button } from '../../atoms/button/button';
-import { Typography } from '../../atoms/typography/typography';
+import { motion } from 'framer-motion';
+import { Sun, Moon, Languages } from 'lucide-react';
+import clsx from 'clsx';
 import type { ThemeMode } from '../../../styles/theme';
-
-const Bar = styled.header`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-  backdrop-filter: blur(16px);
-  background: ${({ theme }) => (theme.mode === 'dark' ? 'rgba(11, 11, 12, 0.85)' : 'rgba(255, 255, 255, 0.85)')};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-`;
-
-const Inner = styled.div`
-  width: min(1120px, 90%);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${({ theme }) => `${theme.spacing.sm} 0`};
-`;
-
-const NavLinks = styled.nav`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
-`;
-
-const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-`;
-
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-`;
-
-const LogoAccent = styled.span`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.accent};
-`;
+import { MotionButton } from '@primitives';
+import { useHoverAnimation } from '../../../hooks/useHoverAnimation';
 
 interface NavbarProps {
   onToggleTheme: () => void;
@@ -56,49 +14,134 @@ interface NavbarProps {
   languageLabel: string;
 }
 
-const scrollTo = (id: string) => {
-  const section = document.getElementById(id);
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-};
+const sections = ['hero', 'how', 'resources', 'stories', 'contact'] as const;
 
 export const Navbar: React.FC<NavbarProps> = ({ onToggleTheme, onToggleLanguage, themeMode, languageLabel }) => {
   const { t } = useTranslation();
+  const [activeSection, setActiveSection] = useState<string>('hero');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const linkHover = useHoverAnimation({ variant: 'link' });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 24);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    sections.forEach(section => {
+      const element = document.getElementById(section);
+      if (!element) {
+        return;
+      }
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              setActiveSection(section);
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+        },
+      );
+      observer.observe(element);
+      observers.push(observer);
+    });
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
+
+  const navItems = useMemo(
+    () =>
+      sections.map(section => ({
+        id: section,
+        label: t(`navigation.${section === 'how' ? 'how' : section}`),
+      })),
+    [t],
+  );
+
+  const scrollTo = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
-    <Bar>
-      <Inner>
-        <Logo>
-          <LogoAccent />
-          <Typography as="span" variant="subtitle" weight="semibold">
-            {t('brand')}
-          </Typography>
-        </Logo>
-        <NavLinks>
-          <Button type="button" variant="ghost" size="sm" onClick={() => scrollTo('hero')}>
-            {t('navigation.hero')}
-          </Button>
-          <Button type="button" variant="ghost" size="sm" onClick={() => scrollTo('features')}>
-            {t('navigation.features')}
-          </Button>
-          <Button type="button" variant="ghost" size="sm" onClick={() => scrollTo('pricing')}>
-            {t('navigation.pricing')}
-          </Button>
-          <Button type="button" variant="ghost" size="sm" onClick={() => scrollTo('contact')}>
-            {t('navigation.contact')}
-          </Button>
-        </NavLinks>
-        <Actions>
-          <Button type="button" variant="ghost" size="sm" onClick={onToggleTheme}>
-            {themeMode === 'dark' ? t('theme.light') : t('theme.dark')}
-          </Button>
-          <IconButton type="button" onClick={onToggleLanguage}>
-            {languageLabel}
-          </IconButton>
-        </Actions>
-      </Inner>
-    </Bar>
+    <header
+      className={clsx(
+        'fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-expo',
+        isScrolled ? 'bg-overlay-soft backdrop-blur-2xl border-b border-overlay-soft' : 'bg-transparent',
+      )}
+    >
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5 text-primary">
+        <button
+          type="button"
+          onClick={() => scrollTo('hero')}
+          className="group relative flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.28em] text-primary"
+        >
+          <span className="h-3 w-3 rounded-full bg-[var(--color-accent)] shadow-[0_0_20px_rgba(0,255,148,0.5)] transition-transform duration-500 ease-expo group-hover:scale-125" />
+          <span className="font-display text-base tracking-wider">{t('brand')}</span>
+        </button>
+        <nav className="relative hidden items-center gap-8 rounded-full border border-overlay-subtle bg-overlay-subtle/80 px-8 py-3 backdrop-blur-2xl md:flex">
+          {navItems.map(item => (
+            <motion.button
+              key={item.id}
+              type="button"
+              className={clsx('relative text-xs uppercase tracking-[0.32em]', activeSection === item.id ? 'text-primary' : 'text-secondary')}
+              onClick={() => scrollTo(item.id)}
+              whileHover={linkHover.whileHover}
+              whileTap={linkHover.whileTap}
+              transition={linkHover.transition}
+            >
+              <span className="relative z-10">{item.label}</span>
+              <motion.span
+                layoutId={`underline-${item.id}`}
+                className="absolute -bottom-2 left-0 h-[2px] w-full origin-left bg-[var(--color-text-primary)]"
+                initial={{ scaleX: activeSection === item.id ? 1 : 0 }}
+                animate={{ scaleX: activeSection === item.id ? 1 : 0 }}
+                transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+              />
+            </motion.button>
+          ))}
+        </nav>
+        <div className="flex items-center gap-4 pl-4">
+          <motion.button
+            type="button"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-overlay-soft bg-overlay-subtle text-primary transition-colors duration-300 ease-expo hover:bg-overlay-soft"
+            onClick={onToggleTheme}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            aria-label={themeMode === 'dark' ? t('theme.light') : t('theme.dark')}
+          >
+            {themeMode === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </motion.button>
+          <motion.button
+            type="button"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-overlay-soft bg-overlay-subtle text-primary transition-colors duration-300 ease-expo hover:bg-overlay-soft"
+            onClick={onToggleLanguage}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            aria-label={languageLabel}
+          >
+            <Languages className="h-5 w-5" />
+            <span className="sr-only">{languageLabel}</span>
+          </motion.button>
+          <MotionButton size="sm" variant="primary" onClick={() => scrollTo('contact')}>
+            {t('hero.ctaPrimary')}
+          </MotionButton>
+        </div>
+      </div>
+    </header>
   );
 };
 

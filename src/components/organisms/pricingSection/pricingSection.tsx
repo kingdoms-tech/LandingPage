@@ -1,77 +1,90 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SectionContainer, ContentWrapper } from '../../molecules/sectionContainer/sectionContainer';
-import { Typography } from '../../atoms/typography/typography';
-import { Card } from '../../molecules/card/card';
-import { Button } from '../../atoms/button/button';
+import { motion } from 'framer-motion';
+import { Sparkles, BookOpen, HeartPulse, Users } from 'lucide-react';
+import { ScrollReveal, HoverCard, MotionButton } from '@primitives';
 
-const PricingGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
-  margin-top: ${({ theme }) => theme.spacing.xxl};
-`;
+interface Resource {
+  title: string;
+  description: string;
+  icon: 'Sparkles' | 'BookOpen' | 'HeartPulse' | 'Users';
+}
 
-const PlanFeatures = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.xl};
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
-`;
+const iconMap = {
+  Sparkles,
+  BookOpen,
+  HeartPulse,
+  Users,
+} as const;
 
-const SectionSubtitle = styled(Typography)`
-  margin-top: ${({ theme }) => theme.spacing.sm};
-`;
-
-const PlanPrice = styled(Typography)`
-  margin-top: ${({ theme }) => theme.spacing.xs};
-`;
-
-export const PricingSection: React.FC = () => {
+export const ResourcesSection: React.FC = () => {
   const { t } = useTranslation();
-  const plans = t('pricing.plans', { returnObjects: true }) as Array<{ name: string; price: string; features: string[] }>;
+  const resources = t('resources.items', { returnObjects: true }) as Resource[];
+
+  const gridItems = useMemo(
+    () =>
+      resources.map(resource => {
+        const Icon = iconMap[resource.icon];
+        return { ...resource, Icon };
+      }),
+    [resources],
+  );
 
   return (
-    <SectionContainer id="pricing" $background="surface">
-      <ContentWrapper>
-        <Typography variant="heading" weight="bold" align="center">
-          {t('pricing.title')}
-        </Typography>
-        <SectionSubtitle variant="body" align="center">
-          {t('pricing.subtitle')}
-        </SectionSubtitle>
-        <PricingGrid>
-          {plans.map((plan, index) => (
-            <Card
-              key={plan.name}
-              as={motion.div}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: index * 0.1, duration: 0.3, ease: 'easeOut' }}
-            >
-              <Typography variant="subtitle" weight="semibold">
-                {plan.name}
-              </Typography>
-              <PlanPrice variant="heading" weight="bold">
-                {plan.price}
-              </PlanPrice>
-              <PlanFeatures>
-                {plan.features.map(feature => (
-                  <li key={feature}>
-                    <Typography variant="body">{feature}</Typography>
-                  </li>
-                ))}
-              </PlanFeatures>
-              <Button fullWidth>{t('hero.ctaPrimary')}</Button>
-            </Card>
+    <section id="resources" className="relative overflow-hidden pb-28 pt-16">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-[color:var(--overlay-subtle)] to-transparent" />
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-14 px-6">
+        <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <ScrollReveal>
+              <p className="text-sm uppercase tracking-[0.28em] text-muted">
+                {t('navigation.resources')}
+              </p>
+              <h2 className="mt-4 font-display text-3xl font-semibold tracking-wider text-primary sm:text-4xl">
+                {t('resources.title')}
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <p className="mt-6 text-lg leading-relaxed text-secondary">
+                {t('resources.description')}
+              </p>
+            </ScrollReveal>
+          </div>
+          <ScrollReveal delay={0.2}>
+            <MotionButton variant="primary" size="md" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              {t('cta.primary')}
+            </MotionButton>
+          </ScrollReveal>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {gridItems.map((item, index) => (
+            <ScrollReveal key={item.title} delay={index * 0.1}>
+              <HoverCard elevation="md" className="group relative flex h-full flex-col gap-5">
+                <div className="flex items-center justify-between">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-overlay-soft bg-overlay-subtle text-primary transition-transform duration-500 ease-expo group-hover:-translate-y-1">
+                    <item.Icon className="h-6 w-6 text-[var(--color-accent)]" />
+                  </span>
+                  <span className="text-xs uppercase tracking-[0.32em] text-muted">
+                    IA + fé
+                  </span>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-display text-xl font-semibold tracking-wide text-primary">{item.title}</h3>
+                  <p className="text-base leading-relaxed text-secondary">{item.description}</p>
+                </div>
+                <div className="mt-auto flex items-center justify-between text-sm text-muted">
+                  <span className="uppercase tracking-[0.28em]">Disponível</span>
+                  <motion.span
+                    className="h-[1px] w-24 origin-left bg-gradient-to-r from-transparent via-[color:var(--overlay-soft)] to-transparent"
+                    animate={{ scaleX: [0, 1] }}
+                    transition={{ duration: 1, ease: [0.19, 1, 0.22, 1], repeat: Infinity, repeatDelay: 1.5 }}
+                  />
+                </div>
+              </HoverCard>
+            </ScrollReveal>
           ))}
-        </PricingGrid>
-      </ContentWrapper>
-    </SectionContainer>
+        </div>
+      </div>
+    </section>
   );
 };
-

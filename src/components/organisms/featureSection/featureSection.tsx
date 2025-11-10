@@ -1,52 +1,58 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { SectionContainer, ContentWrapper } from '../../molecules/sectionContainer/sectionContainer';
-import { Typography } from '../../atoms/typography/typography';
-import { Card } from '../../molecules/card/card';
+import { ScrollReveal, HoverCard } from '@primitives';
 
-const FeatureGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
-  margin-top: ${({ theme }) => theme.spacing.xxl};
-`;
+interface Step {
+  title: string;
+  description: string;
+}
 
-const FeatureText = styled(Typography)`
-  margin-top: ${({ theme }) => theme.spacing.sm};
-`;
-
-export const FeatureSection: React.FC = () => {
+export const HowItWorksSection: React.FC = () => {
   const { t } = useTranslation();
-  const items = t('features.items', { returnObjects: true }) as Array<{ title: string; description: string }>;
+  const steps = t('howItWorks.steps', { returnObjects: true }) as Step[];
 
   return (
-    <SectionContainer id="features">
-      <ContentWrapper>
-        <Typography variant="heading" weight="bold" align="center">
-          {t('features.title')}
-        </Typography>
-        <FeatureGrid>
-          {items.map((item, index) => (
-            <Card
-              key={item.title}
-              as={motion.div}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: index * 0.1, duration: 0.3, ease: 'easeOut' }}
-            >
-              <Typography variant="subtitle" weight="semibold">
-                {item.title}
-              </Typography>
-              <FeatureText variant="body">
-                {item.description}
-              </FeatureText>
-            </Card>
+    <section id="how" className="relative overflow-hidden pb-28 pt-10">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[color:var(--overlay-subtle)] via-transparent to-transparent" />
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-14 px-6">
+        <div className="max-w-2xl">
+          <ScrollReveal>
+            <p className="text-sm uppercase tracking-[0.28em] text-muted">
+              {t('navigation.how')}
+            </p>
+            <h2 className="mt-4 font-display text-3xl font-semibold tracking-wider text-primary sm:text-4xl">
+              {t('howItWorks.title')}
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.1}>
+            <p className="mt-6 text-lg leading-relaxed text-secondary">
+              {t('howItWorks.description')}
+            </p>
+          </ScrollReveal>
+        </div>
+        <div className="grid gap-8 lg:grid-cols-3">
+          {steps.map((step, index) => (
+            <ScrollReveal key={step.title} delay={index * 0.1}>
+              <HoverCard elevation="md" className="flex h-full flex-col gap-6">
+                <div className="flex items-start justify-between">
+                  <span className="text-sm uppercase tracking-[0.28em] text-muted">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="rounded-full bg-overlay-subtle px-3 py-1 text-[10px] uppercase tracking-[0.32em] text-secondary">
+                    {t('navigation.how')}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <h3 className="font-display text-xl font-semibold tracking-wide text-primary">
+                    {step.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-secondary">{step.description}</p>
+                </div>
+                <div className="mt-auto h-[1px] w-full bg-gradient-to-r from-transparent via-[color:var(--overlay-soft)] to-transparent" />
+              </HoverCard>
+            </ScrollReveal>
           ))}
-        </FeatureGrid>
-      </ContentWrapper>
-    </SectionContainer>
+        </div>
+      </div>
+    </section>
   );
 };
-

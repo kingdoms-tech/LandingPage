@@ -9,6 +9,7 @@ declare module 'styled-components' {
       textSecondary: string;
       accent: string;
       border: string;
+      muted: string;
     };
     spacing: Record<string, string>;
     radius: {
@@ -44,6 +45,21 @@ declare module 'styled-components' {
     };
     transitions: {
       default: string;
+      expo: string;
+    };
+    gradients: {
+      hero: string;
+      canvas: string;
+      cta: string;
+    };
+    blurs: {
+      sm: string;
+      md: string;
+    };
+    overlays: {
+      subtle: string;
+      soft: string;
+      strong: string;
     };
     mode: 'dark' | 'light';
   }

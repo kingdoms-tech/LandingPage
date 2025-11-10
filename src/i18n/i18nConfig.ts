@@ -5,68 +5,121 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   pt: {
     translation: {
+      meta: {
+        title: 'Templo Movimento | Exercício guiado pela fé',
+        description:
+          'Aplicativo que une treinos inteligentes, meditações cristãs e tecnologia para fortalecer corpo e espírito com serenidade.',
+      },
       brand: 'Templo Movimento',
       navigation: {
         hero: 'Início',
-        features: 'Caminho',
-        pricing: 'Planos',
+        how: 'Como funciona',
+        resources: 'Recursos',
+        stories: 'Depoimentos',
         contact: 'Contato',
       },
       hero: {
-        title: 'Exercício e espiritualidade em harmonia',
-        subtitle: 'Cresça em força e fé com treinos guiados e meditações baseadas nas Escrituras, pensadas para o corpo e para a alma.',
-        ctaPrimary: 'Começar jornada',
-        ctaSecondary: 'Explorar conteúdos',
+        eyebrow: 'Equilíbrio entre corpo e espírito',
+        title: 'Inteligência espiritual para cada movimento',
+        subtitle:
+          'Vivencie treinos conduzidos por IA que respeitam seu ritmo, cultivam devoção e alinham respirações às Escrituras.',
+        ctaPrimary: 'Iniciar jornada',
+        ctaSecondary: 'Ver experiência',
       },
-      features: {
-        title: 'Uma jornada integrada',
+      howItWorks: {
+        title: 'Sua prática, em três movimentos de fé',
+        description:
+          'Cada sessão combina planejamento físico com momentos de oração guiada, para que disciplina e descanso caminhem juntos.',
+        steps: [
+          {
+            title: 'Diagnóstico compassivo',
+            description:
+              'IA avalia energia, humor e intenção devocional do dia, oferecendo um plano que honra seus limites.',
+          },
+          {
+            title: 'Treino com liturgia',
+            description:
+              'Sequências moduladas por respirações, versículos e afirmações cristãs para manter foco e reverência.',
+          },
+          {
+            title: 'Selar com gratidão',
+            description:
+              'Devocional final com convite à oração silenciosa, diário espiritual e lembretes de cuidado comunitário.',
+          },
+        ],
+      },
+      resources: {
+        title: 'Ferramentas premium à sua disposição',
+        description:
+          'Tecnologia discreta em um ambiente que estimula serenidade e constância devocional.',
         items: [
           {
-            title: 'Treinos com propósito',
-            description: 'Sequências de movimento que fortalecem o corpo enquanto relembram promessas bíblicas.',
+            title: 'Roteiros gerados por IA',
+            description: 'Sequências personalizadas com ajustes em tempo real para postura e respiração.',
+            icon: 'Sparkles',
           },
           {
-            title: 'Devocionais em áudio',
-            description: 'Momentos de reflexão cristã para acompanhar antes ou depois de cada prática física.',
+            title: 'Devocionais imersivos',
+            description: 'Áudios e textos curtos baseados na tradição cristã protestante para cada etapa.',
+            icon: 'BookOpen',
           },
           {
-            title: 'Comunidade acolhedora',
-            description: 'Partilhe orações, testemunhos e desafios com pessoas que caminham na mesma fé.',
+            title: 'Monitoramento consciente',
+            description: 'Insights sobre humor, descanso e progresso físico com linguagem acolhedora.',
+            icon: 'HeartPulse',
+          },
+          {
+            title: 'Comunidade guiada',
+            description: 'Salas de oração, desafios semanais e acompanhamento pastoral opcional.',
+            icon: 'Users',
           },
         ],
       },
-      pricing: {
-        title: 'Planos que acompanham sua disciplina',
-        subtitle: 'Sem amarras. Escolha o ritmo que faz sentido para o seu compromisso espiritual e físico.',
-        plans: [
+      testimonials: {
+        title: 'Histórias de quem caminha com propósito',
+        description:
+          'Experiências reais de cristãos que descobriram uma rotina de movimento alinhada à fé.',
+        quotes: [
           {
-            name: 'Essencial',
-            price: 'R$39/mês',
-            features: ['Treinos semanais', 'Devocionais guiados', 'Playlists inspiradoras'],
+            quote:
+              'Encontrei um espaço seguro para treinar e orar. Cada sessão me lembra que meu corpo é templo e presente.',
+            name: 'Ana Luiza',
+            role: 'Líder de louvor',
           },
           {
-            name: 'Crescimento',
-            price: 'R$69/mês',
-            features: ['Treinos diários', 'Mentorias mensais', 'Planos alimentares cristãos'],
+            quote:
+              'A tecnologia do app respeita meus limites físicos e espirituais. Sinto paz enquanto fortaleço meu corpo.',
+            name: 'Pr. Renato',
+            role: 'Pastor auxiliar',
           },
           {
-            name: 'Comunidade',
-            price: 'R$99/mês',
-            features: ['Acesso completo', 'Eventos ao vivo', 'Grupos de discipulado'],
+            quote:
+              'As meditações guiadas me ajudaram a recuperar foco e descanso no Senhor em meio à agenda intensa.',
+            name: 'Camila',
+            role: 'Empreendedora',
           },
         ],
+      },
+      cta: {
+        title: 'Respire fundo. O templo que você habita merece cuidado.',
+        subtitle:
+          'Junte-se a uma comunidade que equilibra vigor físico, devoção bíblica e inteligência artificial a serviço da fé.',
+        primary: 'Assinar agora',
+        secondary: 'Agendar demonstração',
       },
       contact: {
-        title: 'Converse com nossa equipe',
-        subtitle: 'Quer implementar em sua igreja ou ministério? Escreva e vamos sonhar juntos.',
-        name: 'Nome',
+        title: 'Vamos construir essa jornada juntos',
+        subtitle:
+          'Compartilhe sua visão para aplicar o Templo Movimento em sua igreja, ministério ou rotina pessoal.',
+        name: 'Nome completo',
         email: 'Email',
         message: 'Mensagem',
         submit: 'Enviar mensagem',
       },
       footer: {
-        scripture: '“Portanto, quer vocês comam, bebam ou façam qualquer outra coisa, façam tudo para a glória de Deus.” 1 Coríntios 10:31',
-        rights: '2025 Templo Movimento. Todos os direitos reservados.',
+        scripture:
+          '“Portanto, ofereçam o seu corpo em sacrifício vivo, santo e agradável a Deus; este é o culto racional de vocês.” Romanos 12:1',
+        rights: '2025 Kingdom Tech. Todos os direitos reservados.',
       },
       theme: {
         dark: 'Modo escuro',
@@ -77,68 +130,121 @@ const resources = {
   },
   en: {
     translation: {
+      meta: {
+        title: 'Temple Movement | Faith-guided intelligent training',
+        description:
+          'Experience workouts guided by AI, scripture meditations, and pastoral care that nurture body and spirit with serenity.',
+      },
       brand: 'Temple Movement',
       navigation: {
         hero: 'Home',
-        features: 'Pathway',
-        pricing: 'Plans',
+        how: 'How it works',
+        resources: 'Resources',
+        stories: 'Stories',
         contact: 'Contact',
       },
       hero: {
-        title: 'Exercise and spirituality in harmony',
-        subtitle: 'Grow in strength and faith with scripture-based workouts and meditations designed for body and soul.',
+        eyebrow: 'Harmony for body and spirit',
+        title: 'Spiritual intelligence for every move',
+        subtitle:
+          'Receive AI-guided sessions that honor your pace, nurture devotion, and align each breath with Scripture.',
         ctaPrimary: 'Start journey',
-        ctaSecondary: 'Explore content',
+        ctaSecondary: 'Preview experience',
       },
-      features: {
-        title: 'An integrated journey',
+      howItWorks: {
+        title: 'Your practice in three faithful movements',
+        description:
+          'Every meeting blends physical planning with guided moments of prayer so discipline and rest can walk together.',
+        steps: [
+          {
+            title: 'Compassionate assessment',
+            description:
+              'AI reads energy, mood, and devotional intentions, crafting a plan that respects your limits.',
+          },
+          {
+            title: 'Liturgical training',
+            description:
+              'Sequences modulated by breaths, verses, and Christian affirmations to sustain focus and reverence.',
+          },
+          {
+            title: 'Seal with gratitude',
+            description:
+              'Closing devotional with silent prayer, spiritual journaling, and gentle community reminders.',
+          },
+        ],
+      },
+      resources: {
+        title: 'Premium tools at your reach',
+        description:
+          'Discreet technology inside an atmosphere designed for serenity and devotional consistency.',
         items: [
           {
-            title: 'Purposeful training',
-            description: 'Movement sequences that strengthen the body while recalling biblical promises.',
+            title: 'AI-crafted flows',
+            description: 'Personalized sequences with real-time posture and breathing adjustments.',
+            icon: 'Sparkles',
           },
           {
-            title: 'Audio devotionals',
-            description: 'Christian reflections to accompany each physical practice.',
+            title: 'Immersive devotionals',
+            description: 'Short audio and text grounded in Protestant Christian tradition for each stage.',
+            icon: 'BookOpen',
           },
           {
-            title: 'Welcoming community',
-            description: 'Share prayers, testimonies, and challenges with believers walking the same path.',
+            title: 'Mindful tracking',
+            description: 'Insights on mood, rest, and physical progress written in an encouraging tone.',
+            icon: 'HeartPulse',
+          },
+          {
+            title: 'Guided community',
+            description: 'Prayer rooms, weekly challenges, and optional pastoral follow-up.',
+            icon: 'Users',
           },
         ],
       },
-      pricing: {
-        title: 'Plans to sustain your discipline',
-        subtitle: 'Flexible access. Choose the pace that fits your spiritual and physical commitment.',
-        plans: [
+      testimonials: {
+        title: 'Stories of purposeful movement',
+        description:
+          'Real accounts from believers who discovered a rhythm that honors both strength and devotion.',
+        quotes: [
           {
-            name: 'Essential',
-            price: '$19/mo',
-            features: ['Weekly workouts', 'Guided devotionals', 'Inspiring playlists'],
+            quote:
+              'I found a safe place to train and pray. Every session reminds me my body is a temple and a gift.',
+            name: 'Ana Luiza',
+            role: 'Worship leader',
           },
           {
-            name: 'Growth',
-            price: '$34/mo',
-            features: ['Daily workouts', 'Monthly mentoring', 'Faith-rooted nutrition plans'],
+            quote:
+              'The app’s technology honors my physical and spiritual limits. I sense peace while building endurance.',
+            name: 'Pastor Renato',
+            role: 'Associate pastor',
           },
           {
-            name: 'Community',
-            price: '$49/mo',
-            features: ['Full access', 'Live gatherings', 'Discipleship groups'],
+            quote:
+              'Guided meditations helped me regain focus and rest in the Lord amidst a demanding schedule.',
+            name: 'Camila',
+            role: 'Entrepreneur',
           },
         ],
+      },
+      cta: {
+        title: 'Breathe deeply. The temple you inhabit deserves care.',
+        subtitle:
+          'Join a community that blends physical vigor, biblical devotion, and AI craftsmanship for the glory of God.',
+        primary: 'Subscribe now',
+        secondary: 'Book a demo',
       },
       contact: {
-        title: 'Talk with our team',
-        subtitle: 'Want to bring it to your church or ministry? Reach out and let us plan together.',
-        name: 'Name',
+        title: 'Let’s design this journey together',
+        subtitle:
+          'Share your vision to bring Temple Movement to your church, ministry, or daily routine.',
+        name: 'Full name',
         email: 'Email',
         message: 'Message',
         submit: 'Send message',
       },
       footer: {
-        scripture: '“So whether you eat or drink or whatever you do, do it all for the glory of God.” 1 Corinthians 10:31',
-        rights: '2025 Temple Movement. All rights reserved.',
+        scripture:
+          '“Therefore, I urge you, brothers and sisters, in view of God’s mercy, to offer your bodies as a living sacrifice.” Romans 12:1',
+        rights: '2025 Kingdom Tech. All rights reserved.',
       },
       theme: {
         dark: 'Dark mode',
